@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HSL Bus Recognition Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input, button {
+            padding: 10px;
+            margin: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>HSL Bus Recognition Game</h1>
+
+<p id="question">Loading...</p>
+
+<input type="text" id="answer" placeholder="Type the company name here">
+<br>
+<button onclick="checkAnswer()">Submit Answer</button>
+
+<p id="result"></p>
+
+<script>
+    const buses = [
+        { model: "Volvo 8900LE", company: "Nobina" },
+        { model: "Scania Citywide LF", company: "Pohjolan Liikenne" },
+        { model: "MAN Lion's City", company: "Nobina" },
+        { model: "Mercedes-Benz eCitaro", company: "Koiviston Auto" },
+        { model: "Solaris Urbino 12", company: "Transdev" }
+    ];
+
+    let currentBus = null;
+
+    function newQuestion() {
+        currentBus = buses[Math.floor(Math.random() * buses.length)];
+        document.getElementById("question").textContent = 
+            "Which company operates this bus model: " + currentBus.model + "?";
+        document.getElementById("answer").value = "";
+        document.getElementById("result").textContent = "";
+    }
+
+    function checkAnswer() {
+        const userInput = document.getElementById("answer").value.trim().toLowerCase();
+        const correctCompany = currentBus.company.toLowerCase();
+
+        if (userInput === correctCompany) {
+            document.getElementById("result").innerHTML = "<span style='color:green;'>Correct! 🎉</span>";
+        } else {
+            document.getElementById("result").innerHTML = "<span style='color:red;'>Wrong! Correct answer: " + currentBus.company + "</span>";
+        }
+
+        // Wait 2 seconds, then ask a new question
+        setTimeout(newQuestion, 2000);
+    }
+
+    // Start the first question when the page loads
+    window.onload = newQuestion;
+</script>
+
+</body>
+</html>
